@@ -16,7 +16,7 @@ model Person {
   email       String
   phone       String
   cpf         String
-  rg          String
+  rg          String?
   birthDate   DateTime
   gender      GENDER
   nationality String?
@@ -104,6 +104,7 @@ model CustomerRealEstate {
 model RealEstate {
   id                 String               @id @default(auto()) @map("_id") @db.ObjectId
   name               String
+  cnpj               String
   address            Address              @relation(fields: [addressId], references: [id])
   addressId          String               @map("address_id") @db.ObjectId
   descriptions       String[]             @default([])

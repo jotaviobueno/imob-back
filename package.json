@@ -36,7 +36,8 @@
     "dotenv": "^16.3.1",
     "prisma": "^5.5.2",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "validation-br": "^1.4.4"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
