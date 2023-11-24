@@ -1,9 +1,8 @@
 import {
-  IsDate,
+  IsDateString,
   IsEmail,
   IsEnum,
   IsNotEmpty,
-  IsPhoneNumber,
   IsString,
   Length,
 } from 'class-validator';
@@ -20,7 +19,7 @@ export class CreatePersonDto {
   @IsNotEmpty()
   email: string;
 
-  @IsPhoneNumber()
+  @IsString()
   @IsNotEmpty()
   phone: string;
 
@@ -32,7 +31,7 @@ export class CreatePersonDto {
   @IsNotEmpty()
   rg?: string;
 
-  @IsDate()
+  @IsDateString()
   @IsNotEmpty()
   birthDate: Date;
 

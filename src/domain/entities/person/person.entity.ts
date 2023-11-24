@@ -10,4 +10,7 @@ export class PersonEntity implements Person {
   birthDate: Date;
   gender: GENDER;
   nationality: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date | null;
 }

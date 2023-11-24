@@ -18,6 +18,22 @@ export class PersonService
     return this.personRepository.create(dto);
   }
 
+  findByRg(rg: string): Promise<PersonEntity> {
+    return this.personRepository.findByRg(rg);
+  }
+
+  findByEmail(email: string): Promise<PersonEntity> {
+    return this.personRepository.findByEmail(email);
+  }
+
+  findByCpf(cpf: string): Promise<PersonEntity> {
+    return this.personRepository.findByCpf(cpf);
+  }
+
+  findByPhone(phone: string): Promise<PersonEntity> {
+    return this.personRepository.findByPhone(phone);
+  }
+
   async findAll(queryParams: QueryParamsDto): Promise<IFindMany<PersonEntity>> {
     const query = new QueryBuilder(queryParams).handle();
 
