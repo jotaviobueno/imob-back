@@ -11,16 +11,144 @@ datasource db {
 }
 
 model Person {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  firstName String    @map("first_name")
-  lastName  String    @map("last_name")
-  username  String
-  email     String
-  password  String
-  avatarUrl String?   @map("avatar_url")
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp
-  updatedAt DateTime  @default(now()) @map("updated_at") @db.Timestamp
-  deletedAt DateTime? @map("deleted_at") @db.Timestamp
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  firstName        String             @map("first_name")
+  lastName         String             @map("last_name")
+  username         String
+  email            String
+  password         String
+  avatar           String?            @map("avatar")
+  createdAt        DateTime           @default(now()) @map("created_at") @db.Timestamp
+  updatedAt        DateTime           @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt        DateTime?          @map("deleted_at") @db.Timestamp
+  PersonRealEstate PersonRealEstate[]
 
   @@map("person")
+}
+
+model PersonRealEstate {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  person       Person     @relation(fields: [personId], references: [id])
+  personId     String     @map("person_id") @db.ObjectId
+  realEstate   RealEstate @relation(fields: [realEstateId], references: [id])
+  realEstateId String     @map("real_estate_id") @db.ObjectId
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamp
+  updatedAt    DateTime   @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt    DateTime?  @map("deleted_at") @db.Timestamp
+
+  @@map("person_real_estate")
+}
+
+model Customer {
+  id                 String               @id @default(auto()) @map("_id") @db.ObjectId
+  fullName           String
+  email              String
+  phone              String
+  cpf                String
+  gender             GENDER
+  address            Address              @relation(fields: [addressId], references: [id])
+  addressId          String               @db.ObjectId
+  createdAt          DateTime             @default(now()) @map("created_at") @db.Timestamp
+  updatedAt          DateTime             @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt          DateTime?            @map("deleted_at") @db.Timestamp
+  Property           Property[]
+  CustomerRealEstate CustomerRealEstate[]
+
+  @@map("customer")
+}
+
+enum GENDER {
+  FAMALE
+  MALE
+}
+
+model CustomerRealEstate {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  realEstate   RealEstate @relation(fields: [realEstateId], references: [id])
+  realEstateId String     @db.ObjectId
+  customer     Customer   @relation(fields: [customerId], references: [id])
+  customerId   String     @db.ObjectId
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamp
+  updatedAt    DateTime   @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt    DateTime?  @map("deleted_at") @db.Timestamp
+
+  @@map("customer_real_estate")
+}
+
+model RealEstate {
+  id                 String               @id @default(auto()) @map("_id") @db.ObjectId
+  name               String
+  address            Address              @relation(fields: [addressId], references: [id])
+  addressId          String               @map("address_id") @db.ObjectId
+  descriptions       String[]             @default([])
+  images             String[]             @default([])
+  createdAt          DateTime             @default(now()) @map("created_at") @db.Timestamp
+  updatedAt          DateTime             @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt          DateTime?            @map("deleted_at") @db.Timestamp
+  PersonRealEstate   PersonRealEstate[]
+  Property           Property[]
+  CustomerRealEstate CustomerRealEstate[]
+
+  @@map("real_estate")
+}
+
+model Property {
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  description  String
+  isActive     Boolean         @default(true) @map("is_active")
+  status       PROPERTY_STATUS
+  saleValue    Float?          @map("sale_value")
+  rentalValue  Float?          @map("rental_value")
+  buildingArea String          @map("building_area")
+  landArea     String          @map("land_area")
+  images       String[]        @default([])
+  createdAt    DateTime        @default(now()) @map("created_at") @db.Timestamp
+  updatedAt    DateTime        @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt    DateTime?       @map("deleted_at") @db.Timestamp
+  address      Address         @relation(fields: [addressId], references: [id])
+  addressId    String          @map("address_id") @db.ObjectId
+  type         Type            @relation(fields: [typeId], references: [id])
+  typeId       String          @map("type_id") @db.ObjectId
+  realEstate   RealEstate      @relation(fields: [realEstateId], references: [id])
+  realEstateId String          @map("real_estate_id") @db.ObjectId
+  customer     Customer        @relation(fields: [customerId], references: [id])
+  // Property owner
+  customerId   String          @map("customer_id") @db.ObjectId
+
+  @@map("property")
+}
+
+enum PROPERTY_STATUS {
+  ALUGADA
+  VENDIDA
+  CANCELADO
+}
+
+model Type {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime   @default(now()) @map("created_at") @db.Timestamp
+  updatedAt DateTime   @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt DateTime?  @map("deleted_at") @db.Timestamp
+  Property  Property[]
+
+  @@map("type")
+}
+
+model Address {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  street       String
+  number       String
+  neighborhood String
+  city         String
+  zipCode      Int          @map("zip_code")
+  state        String
+  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamp
+  updatedAt    DateTime     @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt    DateTime?    @map("deleted_at") @db.Timestamp
+  Property     Property[]
+  RealEstate   RealEstate[]
+  Customer     Customer[]
+
+  @@map("address")
 }
