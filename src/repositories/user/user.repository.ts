@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from 'src/domain/dtos';
-import { UserEntity } from 'src/domain/entities';
+import { PersonEntity, UserEntity } from 'src/domain/entities';
 import { RepositoryFactory } from 'src/domain/factories';
 
 @Injectable()
@@ -33,12 +33,18 @@ export class UserRepository extends RepositoryFactory<
     super('user');
   }
 
-  findAll(query: any): Promise<UserEntity[]> {
+  findAll(
+    query: any,
+  ): Promise<Omit<UserEntity, 'password' & { person: PersonEntity }>[]> {
     return this.prismaService.user.findMany({
-      where: {
-        ...query,
-      },
-      include: {
+      ...query,
+      where: {},
+      select: {
+        id: true,
+        personId: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: true,
         person: true,
       },
     });
