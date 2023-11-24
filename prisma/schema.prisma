@@ -22,6 +22,13 @@ model Person {
   nationality String?
   user        User?
   customer    Customer?
+
+  @@map("person")
+}
+
+enum GENDER {
+  FAMALE
+  MALE
 }
 
 model User {
@@ -59,15 +66,26 @@ model Customer {
   createdAt          DateTime             @default(now()) @map("created_at") @db.Timestamp
   updatedAt          DateTime             @default(now()) @map("updated_at") @db.Timestamp
   deletedAt          DateTime?            @map("deleted_at") @db.Timestamp
-  property           Property[]
   customerRealEstate CustomerRealEstate[]
+  customerProperty   CustomerProperty[]
 
   @@map("customer")
 }
 
-enum GENDER {
-  FAMALE
-  MALE
+model CustomerProperty {
+  id         String                 @id @default(auto()) @map("_id") @db.ObjectId
+  type       CUSTOMER_PROPERTY_TYPE
+  property   Property               @relation(fields: [propertyId], references: [id])
+  propertyId String                 @map("property_id") @db.ObjectId
+  customer   Customer               @relation(fields: [customerId], references: [id])
+  customerId String                 @map("customer_id") @db.ObjectId
+
+  @@map("customer_property")
+}
+
+enum CUSTOMER_PROPERTY_TYPE {
+  RENT_PROPERTY
+  OWNER_PROPERTY
 }
 
 model CustomerRealEstate {
@@ -101,26 +119,25 @@ model RealEstate {
 }
 
 model Property {
-  id           String          @id @default(auto()) @map("_id") @db.ObjectId
-  description  String
-  isActive     Boolean         @default(true) @map("is_active")
-  status       PROPERTY_STATUS
-  saleValue    Float?          @map("sale_value")
-  rentalValue  Float?          @map("rental_value")
-  buildingArea String          @map("building_area")
-  landArea     String          @map("land_area")
-  images       String[]        @default([])
-  createdAt    DateTime        @default(now()) @map("created_at") @db.Timestamp
-  updatedAt    DateTime        @default(now()) @map("updated_at") @db.Timestamp
-  deletedAt    DateTime?       @map("deleted_at") @db.Timestamp
-  address      Address         @relation(fields: [addressId], references: [id])
-  addressId    String          @map("address_id") @db.ObjectId
-  type         Type            @relation(fields: [typeId], references: [id])
-  typeId       String          @map("type_id") @db.ObjectId
-  realEstate   RealEstate      @relation(fields: [realEstateId], references: [id])
-  realEstateId String          @map("real_estate_id") @db.ObjectId
-  customer     Customer        @relation(fields: [customerId], references: [id])
-  customerId   String          @db.ObjectId
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  description      String
+  isActive         Boolean            @default(true) @map("is_active")
+  status           PROPERTY_STATUS
+  saleValue        Float?             @map("sale_value")
+  rentalValue      Float?             @map("rental_value")
+  buildingArea     String             @map("building_area")
+  landArea         String             @map("land_area")
+  images           String[]           @default([])
+  createdAt        DateTime           @default(now()) @map("created_at") @db.Timestamp
+  updatedAt        DateTime           @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt        DateTime?          @map("deleted_at") @db.Timestamp
+  address          Address            @relation(fields: [addressId], references: [id])
+  addressId        String             @map("address_id") @db.ObjectId
+  type             Type               @relation(fields: [typeId], references: [id])
+  typeId           String             @map("type_id") @db.ObjectId
+  realEstate       RealEstate         @relation(fields: [realEstateId], references: [id])
+  realEstateId     String             @map("real_estate_id") @db.ObjectId
+  customerProperty CustomerProperty[]
 
   @@map("property")
 }
