@@ -46,6 +46,7 @@ export class UserRepository extends RepositoryFactory<
         updatedAt: true,
         deletedAt: true,
         person: true,
+        avatar: true,
       },
     });
   }
