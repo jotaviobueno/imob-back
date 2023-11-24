@@ -49,4 +49,16 @@ export class UserRepository extends RepositoryFactory<
       },
     });
   }
+
+  findById(id: string): Promise<UserEntity> {
+    return this.prismaService.user.findFirst({
+      where: {
+        id,
+        deletedAt: null,
+      },
+      include: {
+        person: true,
+      },
+    });
+  }
 }

@@ -85,7 +85,9 @@ export class UserService
 
     const { password, ...user } = userInfo;
 
-    return returnPassword ? user : { ...user, password };
+    if (returnPassword) return { ...user, password };
+
+    return user;
   }
 
   async update({
