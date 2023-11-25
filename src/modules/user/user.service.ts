@@ -4,8 +4,8 @@ import { CreateUserDto, QueryParamsDto, UpdateUserDto } from 'src/domain/dtos';
 import { IFindMany, UserEntity } from 'src/domain/entities';
 import { UserRepository } from 'src/repositories/user';
 import { PersonService } from '../person/person.service';
-import { QueryBuilder, hash, isMongoId } from 'src/domain/utils';
-import { UploadService } from '../upload/upload.service';
+import { QueryBuilder, generatePath, hash, isMongoId } from 'src/domain/utils';
+import { S3Service } from '../s3/s3.service';
 
 @Injectable()
 export class UserService
@@ -17,7 +17,7 @@ export class UserService
   constructor(
     private readonly userRepository: UserRepository,
     private readonly personService: PersonService,
-    private readonly uploadService: UploadService,
+    private readonly s3Service: S3Service,
   ) {}
 
   async create(
@@ -47,7 +47,12 @@ export class UserService
     }
 
     const avatar =
-      file && (await this.uploadService.upload(file, 'user/avatar'));
+      file &&
+      (await this.s3Service.upload({
+        bucket: 'imobproject',
+        path: generatePath('user/avatar', file.mimetype),
+        ...file,
+      }));
 
     const person = await this.personService.create(dto);
 
@@ -57,7 +62,7 @@ export class UserService
     const { password, ...user } = await this.userRepository.create({
       password: passwordHashed,
       personId: person.id,
-      avatar: avatar.data.publicUrl,
+      avatar,
     });
 
     return user;
@@ -128,12 +133,17 @@ export class UserService
       updateUserDto.password = await hash(updateUserDto.password);
 
     const avatar =
-      file && (await this.uploadService.upload(file, 'user/avatar'));
+      file &&
+      (await this.s3Service.upload({
+        bucket: 'imobproject',
+        path: generatePath('user/avatar', file.mimetype),
+        ...file,
+      }));
 
     if (dto)
       await this.personService.update({
         id: user.personId,
-        avatar: avatar.data.publicUrl,
+        avatar,
         ...dto,
       });
 

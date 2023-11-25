@@ -3,10 +3,10 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { UserRepository } from 'src/repositories/user';
 import { PersonModule } from '../person/person.module';
-import { UploadModule } from '../upload/upload.module';
+import { S3Module } from '../s3/s3.module';
 
 @Module({
-  imports: [PersonModule, UploadModule],
+  imports: [PersonModule, S3Module],
   controllers: [UserController],
   providers: [UserService, UserRepository],
   exports: [UserService],
