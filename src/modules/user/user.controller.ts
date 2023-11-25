@@ -32,6 +32,7 @@ export class UserController {
           new MaxFileSizeValidator({ maxSize: 1000000 }),
           new FileTypeValidator({ fileType: 'image/png' }),
         ],
+        fileIsRequired: false,
       }),
     )
     file?: Express.Multer.File,
