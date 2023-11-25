@@ -37,7 +37,7 @@ export class UserController {
     )
     file?: Express.Multer.File,
   ) {
-    return this.userService.create(createUserDto, file);
+    return this.userService.create({ ...createUserDto, file });
   }
 
   @Get()
@@ -65,7 +65,7 @@ export class UserController {
     )
     file?: Express.Multer.File,
   ) {
-    return this.userService.update({ ...updateUserDto, id }, file);
+    return this.userService.update({ ...updateUserDto, id, file });
   }
 
   @Delete(':id')

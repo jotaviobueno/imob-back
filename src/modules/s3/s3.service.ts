@@ -14,7 +14,7 @@ export class S3Service {
     },
   });
 
-  async upload(file: UploadDto) {
+  async uploadSingleFile(file: UploadDto): Promise<string> {
     try {
       await this.s3Client.send(
         new PutObjectCommand({
@@ -27,6 +27,28 @@ export class S3Service {
       );
 
       return `https://imobproject.s3.sa-east-1.amazonaws.com/${file.path}`;
+    } catch (e) {
+      throw new HttpException(e.message, 500);
+    }
+  }
+
+  async uploadManyFiles(files: UploadDto[]): Promise<string[]> {
+    try {
+      return Promise.all(
+        files.map(async (file) => {
+          await this.s3Client.send(
+            new PutObjectCommand({
+              Bucket: file.bucket,
+              Key: file.path,
+              Body: file.buffer,
+              ACL: 'public-read',
+              ContentType: file.mimetype,
+            }),
+          );
+
+          return `https://imobproject.s3.sa-east-1.amazonaws.com/${file.path}`;
+        }),
+      );
     } catch (e) {
       throw new HttpException(e.message, 500);
     }

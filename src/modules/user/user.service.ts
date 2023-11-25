@@ -20,10 +20,13 @@ export class UserService
     private readonly s3Service: S3Service,
   ) {}
 
-  async create(
-    { password: passwordValue, ...dto }: CreateUserDto,
-    file?: Express.Multer.File,
-  ): Promise<Omit<UserEntity, 'password'>> {
+  async create({
+    password: passwordValue,
+    file,
+    ...dto
+  }: CreateUserDto & { file?: Express.Multer.File }): Promise<
+    Omit<UserEntity, 'password'>
+  > {
     const phoneAlreadyExist = await this.personService.findByPhone(dto.phone);
 
     if (phoneAlreadyExist)
@@ -48,7 +51,7 @@ export class UserService
 
     const avatar =
       file &&
-      (await this.s3Service.upload({
+      (await this.s3Service.uploadSingleFile({
         bucket: 'imobproject',
         path: generatePath('user/avatar', file.mimetype),
         ...file,
@@ -101,10 +104,14 @@ export class UserService
     return user;
   }
 
-  async update(
-    { id, password: passwordValue, ...dto }: UpdateUserDto,
-    file?: Express.Multer.File,
-  ): Promise<Omit<UserEntity, 'password'>> {
+  async update({
+    id,
+    password: passwordValue,
+    file,
+    ...dto
+  }: UpdateUserDto & { file?: Express.Multer.File }): Promise<
+    Omit<UserEntity, 'password'>
+  > {
     const updateUserDto = { id, password: passwordValue };
 
     if (dto.phone) {
@@ -134,7 +141,7 @@ export class UserService
 
     const avatar =
       file &&
-      (await this.s3Service.upload({
+      (await this.s3Service.uploadSingleFile({
         bucket: 'imobproject',
         path: generatePath('user/avatar', file.mimetype),
         ...file,

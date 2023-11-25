@@ -29,7 +29,7 @@ export class S3Controller {
     )
     file: Express.Multer.File,
   ) {
-    return this.s3Service.upload({
+    return this.s3Service.uploadSingleFile({
       bucket: 'imobproject',
       path: generatePath('user/avatar', file.mimetype),
       ...file,
