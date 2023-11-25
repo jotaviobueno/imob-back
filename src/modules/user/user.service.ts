@@ -46,7 +46,8 @@ export class UserService
         throw new HttpException('this rg already exist', HttpStatus.CONFLICT);
     }
 
-    const avatar = file && (await this.uploadService.upload(file));
+    const avatar =
+      file && (await this.uploadService.upload(file, 'user/avatar'));
 
     const person = await this.personService.create(dto);
 
@@ -56,7 +57,7 @@ export class UserService
     const { password, ...user } = await this.userRepository.create({
       password: passwordHashed,
       personId: person.id,
-      avatar,
+      avatar: avatar.data.publicUrl,
     });
 
     return user;
@@ -126,12 +127,13 @@ export class UserService
     if (updateUserDto.password)
       updateUserDto.password = await hash(updateUserDto.password);
 
-    const avatar = file && (await this.uploadService.upload(file));
+    const avatar =
+      file && (await this.uploadService.upload(file, 'user/avatar'));
 
     if (dto)
       await this.personService.update({
         id: user.personId,
-        avatar,
+        avatar: avatar.data.publicUrl,
         ...dto,
       });
 
