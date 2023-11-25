@@ -7,4 +7,6 @@ export class CreateUserDto extends CreatePersonDto {
   password: string;
 
   personId: string;
+
+  avatar?: string;
 }

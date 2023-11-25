@@ -5,6 +5,7 @@ import { IFindMany, UserEntity } from 'src/domain/entities';
 import { UserRepository } from 'src/repositories/user';
 import { PersonService } from '../person/person.service';
 import { QueryBuilder, hash, isMongoId } from 'src/domain/utils';
+import { UploadService } from '../upload/upload.service';
 
 @Injectable()
 export class UserService
@@ -16,12 +17,13 @@ export class UserService
   constructor(
     private readonly userRepository: UserRepository,
     private readonly personService: PersonService,
+    private readonly uploadService: UploadService,
   ) {}
 
-  async create({
-    password: passwordValue,
-    ...dto
-  }: CreateUserDto): Promise<Omit<UserEntity, 'password'>> {
+  async create(
+    { password: passwordValue, ...dto }: CreateUserDto,
+    file?: Express.Multer.File,
+  ): Promise<Omit<UserEntity, 'password'>> {
     const phoneAlreadyExist = await this.personService.findByPhone(dto.phone);
 
     if (phoneAlreadyExist)
@@ -44,6 +46,9 @@ export class UserService
         throw new HttpException('this rg already exist', HttpStatus.CONFLICT);
     }
 
+    const avatar =
+      file && (await this.uploadService.upload(file, 'user/avatar'));
+
     const person = await this.personService.create(dto);
 
     const passwordHashed = await hash(passwordValue);
@@ -52,6 +57,7 @@ export class UserService
     const { password, ...user } = await this.userRepository.create({
       password: passwordHashed,
       personId: person.id,
+      avatar: avatar.data.publicUrl,
     });
 
     return user;
@@ -90,11 +96,10 @@ export class UserService
     return user;
   }
 
-  async update({
-    id,
-    password: passwordValue,
-    ...dto
-  }: UpdateUserDto): Promise<Omit<UserEntity, 'password'>> {
+  async update(
+    { id, password: passwordValue, ...dto }: UpdateUserDto,
+    file?: Express.Multer.File,
+  ): Promise<Omit<UserEntity, 'password'>> {
     const updateUserDto = { id, password: passwordValue };
 
     if (dto.phone) {
@@ -122,9 +127,13 @@ export class UserService
     if (updateUserDto.password)
       updateUserDto.password = await hash(updateUserDto.password);
 
+    const avatar =
+      file && (await this.uploadService.upload(file, 'user/avatar'));
+
     if (dto)
       await this.personService.update({
         id: user.personId,
+        avatar: avatar.data.publicUrl,
         ...dto,
       });
 

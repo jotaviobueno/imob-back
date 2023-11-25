@@ -39,6 +39,7 @@ model User {
   person         Person           @relation(fields: [personId], references: [id])
   personId       String           @unique @map("person_id") @db.ObjectId
   password       String
+  avatar         String?
   createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamp
   updatedAt      DateTime         @default(now()) @map("updated_at") @db.Timestamp
   deletedAt      DateTime?        @map("deleted_at") @db.Timestamp
