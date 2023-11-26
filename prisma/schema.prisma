@@ -242,3 +242,15 @@ model Log {
 
   @@map("log")
 }
+
+model Menu {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  url         String
+  description String?
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamp
+  updatedAt   DateTime  @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt   DateTime? @map("deleted_at") @db.Timestamp
+
+  @@map("menu")
+}

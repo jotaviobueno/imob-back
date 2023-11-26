@@ -6,3 +6,4 @@ export * from './address';
 export * from './role';
 export * from './user-role';
 export * from './address';
+export * from './menu';

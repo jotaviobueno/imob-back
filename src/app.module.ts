@@ -11,6 +11,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AccessGuard } from './modules/access/guards';
 import { AccessModule } from './modules/access/access.module';
 import { UserRealEstateModule } from './modules/user-real-estate/user-real-estate.module';
+import { MenuModule } from './modules/menu/menu.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UserRealEstateModule } from './modules/user-real-estate/user-real-estat
     UserRoleModule,
     AccessModule,
     UserRealEstateModule,
+    MenuModule,
   ],
   providers: [
     {
