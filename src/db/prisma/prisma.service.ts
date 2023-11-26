@@ -1,5 +1,6 @@
 import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
+import { firstLetterToLowerCase } from 'src/domain/utils';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
@@ -11,7 +12,31 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     await this.$connect();
 
     this.$use(async (params, next) => {
-      if (params.action === 'delete') {
+      await this.$transaction(
+        async (tx) => {
+          await this.handleLog(params, tx);
+        },
+        {
+          maxWait: 5000000000, // default: 2000
+          timeout: 5500000000, // default: 5000
+        },
+      );
+
+      return next(params);
+    });
+  }
+
+  async enableShutdownHooks(app: INestApplication) {
+    this.$on('beforeExit' as never, async () => {
+      await app.close();
+    });
+  }
+
+  private async handleLog(params: Prisma.MiddlewareParams, tx: any) {
+    const model = firstLetterToLowerCase(params.model);
+
+    switch (params.action) {
+      case 'delete':
         params = {
           ...params,
           action: 'update',
@@ -23,15 +48,28 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
             },
           },
         };
-      }
+        break;
+      case 'update':
+        if (!params.runInTransaction) {
+          const oldValue: any = await ((tx as any)[model] as any).findUnique({
+            where: {
+              id: params.args.where.id,
+            },
+          });
 
-      return next(params);
-    });
-  }
+          if (model === 'user') delete oldValue.password;
 
-  async enableShutdownHooks(app: INestApplication) {
-    this.$on('beforeExit' as never, async () => {
-      await app.close();
-    });
+          await tx.log.create({
+            data: {
+              query: params.args,
+              collection: model,
+              action: 'update',
+              oldValue: oldValue,
+              newValue: params.args['data'],
+            },
+          });
+        }
+        break;
+    }
   }
 }
