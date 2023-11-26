@@ -82,6 +82,14 @@ export class UserService
     return { data, total };
   }
 
+  async findByEmail(email: string): Promise<UserEntity> {
+    const user = await this.userRepository.findByEmail(email);
+
+    if (!user) throw new HttpException('Email not found', HttpStatus.NOT_FOUND);
+
+    return user;
+  }
+
   async findOne(
     id: string,
     returnPassword: boolean = false,
@@ -167,7 +175,7 @@ export class UserService
   async softDelete(id: string): Promise<boolean> {
     const user = await this.findOne(id);
 
-    const remove = await this.userRepository.softDelete(user.id);
+    const remove = await this.userRepository.destroy(user.id);
 
     if (!remove)
       throw new HttpException('Failed to remove', HttpStatus.NOT_ACCEPTABLE);

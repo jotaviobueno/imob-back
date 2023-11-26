@@ -63,7 +63,7 @@ export class AddressService
   async softDelete(id: string): Promise<boolean> {
     const address = await this.findOne(id);
 
-    const remove = await this.addressRepository.softDelete(address.id);
+    const remove = await this.addressRepository.destroy(address.id);
 
     if (!remove)
       throw new HttpException('Failed to remove', HttpStatus.NOT_ACCEPTABLE);

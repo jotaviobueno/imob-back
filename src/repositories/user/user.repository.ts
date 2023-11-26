@@ -51,6 +51,16 @@ export class UserRepository extends RepositoryFactory<
     });
   }
 
+  findByEmail(email: string): Promise<UserEntity> {
+    return this.prismaService.user.findFirst({
+      where: {
+        person: {
+          email,
+        },
+      },
+    });
+  }
+
   findById(id: string): Promise<UserEntity> {
     return this.prismaService.user.findFirst({
       where: {

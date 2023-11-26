@@ -16,12 +16,14 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto, QueryParamsDto, UpdateUserDto } from 'src/domain/dtos';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { IsPublic } from '../access/decorators';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @IsPublic()
   @UseInterceptors(FileInterceptor('file'))
   create(
     @Body()

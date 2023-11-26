@@ -50,13 +50,19 @@ export class RepositoryFactory<K, T = void, J = void> {
   }
 
   count(): Promise<number> {
-    return this.prismaService[this.model].count();
+    return this.prismaService[this.model].count({
+      where: {
+        deletedAt: null,
+      },
+    });
   }
 
   findAll(query: any): Promise<K[]> {
     return this.prismaService[this.model].findMany({
       ...query,
-      where: {},
+      where: {
+        deletedAt: null,
+      },
     });
   }
 
@@ -68,18 +74,6 @@ export class RepositoryFactory<K, T = void, J = void> {
       data: {
         ...dto,
         updatedAt: new Date(),
-      },
-    });
-  }
-
-  softDelete(id: string): Promise<K> {
-    return this.prismaService[this.model].update({
-      where: {
-        id,
-      },
-      data: {
-        updatedAt: new Date(),
-        deletedAt: new Date(),
       },
     });
   }

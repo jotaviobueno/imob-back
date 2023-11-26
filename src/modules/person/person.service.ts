@@ -75,7 +75,7 @@ export class PersonService
   async softDelete(id: string): Promise<boolean> {
     const person = await this.findOne(id);
 
-    const remove = await this.personRepository.softDelete(person.id);
+    const remove = await this.personRepository.destroy(person.id);
 
     if (!remove)
       throw new HttpException('Failed to remove', HttpStatus.NOT_ACCEPTABLE);

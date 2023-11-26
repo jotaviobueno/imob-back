@@ -20,7 +20,11 @@ export class RealEstateRepository extends RepositoryFactory<
         deletedAt: null,
       },
       include: {
-        address: true,
+        address: {
+          where: {
+            deletedAt: null,
+          },
+        },
       },
     });
   }
@@ -32,7 +36,11 @@ export class RealEstateRepository extends RepositoryFactory<
         deletedAt: null,
       },
       include: {
-        address: true,
+        address: {
+          where: {
+            deletedAt: null,
+          },
+        },
       },
     });
   }
