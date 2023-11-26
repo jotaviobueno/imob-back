@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main(roles: { name: string; permissions: string[] }[]) {
-  return await prisma.$transaction(
+  return prisma.$transaction(
     async (tx) => {
       for (const { name, permissions } of roles) {
         const nameAlreadyExist = await tx.role.findFirst({
@@ -69,12 +69,6 @@ async function main(roles: { name: string; permissions: string[] }[]) {
 }
 
 const roles = [
-  // ADMIN
-  // DEV
-  // FINANCE
-  // USER
-  // CUSTOMER
-
   {
     name: 'ADMIN',
     permissions: [
@@ -94,6 +88,10 @@ const roles = [
       //
       'CAN_ASSIGN_USER_IN_ROLE',
       'CAN_UNLINK_USER_IN_ROLE',
+      //
+      'CAN_CREATE_MENU',
+      'CAN_UPDATE_MENU',
+      'CAN_DELETE_MENU',
       //
       'CAN_READ_ROLE',
     ],
@@ -117,6 +115,10 @@ const roles = [
       //
       'CAN_ASSIGN_USER_IN_ROLE',
       'CAN_UNLINK_USER_IN_ROLE',
+      //
+      'CAN_CREATE_MENU',
+      'CAN_UPDATE_MENU',
+      'CAN_DELETE_MENU',
       //
       'CAN_READ_ROLE',
     ],
