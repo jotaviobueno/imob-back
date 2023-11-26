@@ -10,6 +10,7 @@ import { UserRoleModule } from './modules/user-role/user-role.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AccessGuard } from './modules/access/guards';
 import { AccessModule } from './modules/access/access.module';
+import { UserRealEstateModule } from './modules/user-real-estate/user-real-estate.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AccessModule } from './modules/access/access.module';
     RoleModule,
     UserRoleModule,
     AccessModule,
+    UserRealEstateModule,
   ],
   providers: [
     {
