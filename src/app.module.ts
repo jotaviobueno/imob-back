@@ -15,6 +15,7 @@ import { MenuModule } from './modules/menu/menu.module';
 import { CustomerModule } from './modules/customer/customer.module';
 import { TypeModule } from './modules/type/type.module';
 import { CustomerRealEstateModule } from './modules/customer-real-estate/customer-real-estate.module';
+import { PropertyModule } from './modules/property/property.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { CustomerRealEstateModule } from './modules/customer-real-estate/custome
     CustomerModule,
     TypeModule,
     CustomerRealEstateModule,
+    PropertyModule,
   ],
   providers: [
     {

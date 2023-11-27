@@ -131,7 +131,6 @@ model RealEstate {
   @@map("real_estate")
 }
 
-// Não feito
 model Property {
   id               String             @id @default(auto()) @map("_id") @db.ObjectId
   description      String
