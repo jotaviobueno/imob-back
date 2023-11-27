@@ -110,6 +110,11 @@ const roles = [
       'CAN_READ_TYPE',
       'CAN_UPDATE_TYPE',
       'CAN_DELETE_TYPE',
+      //
+      'CAN_CREATE_PROPERTY',
+      'CAN_READ_PROPERTY',
+      'CAN_UPDATE_PROPERTY',
+      'CAN_DELETE_PROPERTY',
     ],
   },
   {
