@@ -83,6 +83,7 @@ model Customer {
   @@map("customer")
 }
 
+// Não feito
 model CustomerProperty {
   id         String                 @id @default(auto()) @map("_id") @db.ObjectId
   type       CUSTOMER_PROPERTY_TYPE
@@ -102,12 +103,12 @@ enum CUSTOMER_PROPERTY_TYPE {
 model CustomerRealEstate {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
   realEstate   RealEstate @relation(fields: [realEstateId], references: [id])
-  realEstateId String     @db.ObjectId
+  realEstateId String     @map("real_estate_id") @db.ObjectId
+  customerId   String     @map("customer_id") @db.ObjectId
   customer     Customer   @relation(fields: [customerId], references: [id])
   createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamp
   updatedAt    DateTime   @default(now()) @map("updated_at") @db.Timestamp
   deletedAt    DateTime?  @map("deleted_at") @db.Timestamp
-  customerId   String     @db.ObjectId
 
   @@map("customer_real_estate")
 }
@@ -130,6 +131,7 @@ model RealEstate {
   @@map("real_estate")
 }
 
+// Não feito
 model Property {
   id               String             @id @default(auto()) @map("_id") @db.ObjectId
   description      String

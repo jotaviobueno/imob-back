@@ -9,3 +9,4 @@ export * from './address';
 export * from './menu';
 export * from './customer';
 export * from './type';
+export * from './customer-real-estate';

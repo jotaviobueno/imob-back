@@ -10,3 +10,4 @@ export * from './user-real-estate';
 export * from './menu';
 export * from './customer';
 export * from './type';
+export * from './customer-real-estate';

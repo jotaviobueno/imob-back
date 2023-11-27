@@ -86,15 +86,15 @@ export class UserRealEstateService
     if (dto.userId) {
       const user = await this.userService.findOne(dto.userId);
 
-      const useralreadyExistInRealEstate =
+      const userAlreadyExistInRealEstate =
         await this.userRealEstateRepository.findByUserIdAndRealEstateId(
           user.id,
           userRealEstate.realEstateId,
         );
 
-      if (useralreadyExistInRealEstate)
+      if (userAlreadyExistInRealEstate)
         throw new HttpException(
-          'user already exist in this supplier',
+          'user already exist in this real estate',
           HttpStatus.CONFLICT,
         );
     }

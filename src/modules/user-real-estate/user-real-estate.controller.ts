@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   Query,
 } from '@nestjs/common';
 import { UserRealEstateService } from './user-real-estate.service';
@@ -15,13 +14,8 @@ import {
   QueryParamsDto,
   UpdateUserRealEstateDto,
 } from 'src/domain/dtos';
-import { RoleGuard } from '../role/guards';
-import { Roles } from '../role/decorators';
-import { ROLE_ENUM } from 'src/domain/enums';
 
 @Controller('user-real-estate')
-@UseGuards(RoleGuard)
-@Roles(ROLE_ENUM.ADMIN, ROLE_ENUM.DEV)
 export class UserRealEstateController {
   constructor(private readonly userRealEstateService: UserRealEstateService) {}
 
