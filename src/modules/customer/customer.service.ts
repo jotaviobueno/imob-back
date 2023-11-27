@@ -9,7 +9,7 @@ import { CustomerEntity, IFindMany } from 'src/domain/entities';
 import { CustomerRepository } from 'src/repositories/customer';
 import { AddressService } from '../address/address.service';
 import { PersonService } from '../person/person.service';
-import { PERSON_TYPE } from 'src/domain/enums';
+import { PERSON_TYPE_ENUM } from 'src/domain/enums';
 import { QueryBuilder, isMongoId } from 'src/domain/utils';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class CustomerService
 
     const phoneAlreadyExist = await this.personService.findByPhone(
       createPersonDto.phone,
-      PERSON_TYPE.CUSTOMER,
+      PERSON_TYPE_ENUM.CUSTOMER,
     );
 
     if (phoneAlreadyExist)
@@ -39,7 +39,7 @@ export class CustomerService
 
     const cpfAlreadyExist = await this.personService.findByCpf(
       createPersonDto.cpf,
-      PERSON_TYPE.CUSTOMER,
+      PERSON_TYPE_ENUM.CUSTOMER,
     );
 
     if (cpfAlreadyExist)
@@ -47,7 +47,7 @@ export class CustomerService
 
     const emailAlreadyExist = await this.personService.findByEmail(
       createPersonDto.email,
-      PERSON_TYPE.CUSTOMER,
+      PERSON_TYPE_ENUM.CUSTOMER,
     );
 
     if (emailAlreadyExist)
@@ -56,7 +56,7 @@ export class CustomerService
     if (createPersonDto.rg) {
       const rgAlreadyExist = await this.personService.findByRg(
         createPersonDto.rg,
-        PERSON_TYPE.CUSTOMER,
+        PERSON_TYPE_ENUM.CUSTOMER,
       );
 
       if (rgAlreadyExist)
@@ -114,7 +114,7 @@ export class CustomerService
     if (updatePersonDto.phone) {
       const phoneAlreadyExist = await this.personService.findByPhone(
         updatePersonDto.phone,
-        PERSON_TYPE.CUSTOMER,
+        PERSON_TYPE_ENUM.CUSTOMER,
       );
 
       if (phoneAlreadyExist)
@@ -127,7 +127,7 @@ export class CustomerService
     if (updatePersonDto.cpf) {
       const cpfAlreadyExist = await this.personService.findByCpf(
         updatePersonDto.cpf,
-        PERSON_TYPE.CUSTOMER,
+        PERSON_TYPE_ENUM.CUSTOMER,
       );
 
       if (cpfAlreadyExist)
@@ -137,7 +137,7 @@ export class CustomerService
     if (updatePersonDto.email) {
       const emailAlreadyExist = await this.personService.findByEmail(
         updatePersonDto.email,
-        PERSON_TYPE.CUSTOMER,
+        PERSON_TYPE_ENUM.CUSTOMER,
       );
 
       if (emailAlreadyExist)
@@ -150,7 +150,7 @@ export class CustomerService
     if (updatePersonDto.rg) {
       const rgAlreadyExist = await this.personService.findByRg(
         updatePersonDto.rg,
-        PERSON_TYPE.CUSTOMER,
+        PERSON_TYPE_ENUM.CUSTOMER,
       );
 
       if (rgAlreadyExist)

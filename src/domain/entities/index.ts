@@ -11,3 +11,4 @@ export * from './customer';
 export * from './type';
 export * from './customer-real-estate';
 export * from './property';
+export * from './customer-property';

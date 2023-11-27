@@ -11,7 +11,7 @@ import { PersonService } from './person.service';
 import { QueryParamsDto, UpdatePersonDto } from '../../domain/dtos';
 import { RoleGuard } from '../role/guards';
 import { Permissions } from '../permission/decorators';
-import { PERMISSION, ROLE_ENUM } from 'src/domain/enums';
+import { PERMISSION_ENUM, ROLE_ENUM } from 'src/domain/enums';
 import { Roles } from '../role/decorators';
 
 @Controller('person')
@@ -21,19 +21,19 @@ export class PersonController {
   constructor(private readonly personService: PersonService) {}
 
   @Get()
-  @Permissions(PERMISSION.CAN_READ_PERSON)
+  @Permissions(PERMISSION_ENUM.CAN_READ_PERSON)
   findAll(@Query() queryParamsDto: QueryParamsDto) {
     return this.personService.findAll(queryParamsDto);
   }
 
   @Get(':id')
-  @Permissions(PERMISSION.CAN_READ_PERSON)
+  @Permissions(PERMISSION_ENUM.CAN_READ_PERSON)
   findOne(@Param('id') id: string) {
     return this.personService.findOne(id);
   }
 
   @Patch(':id')
-  @Permissions(PERMISSION.CAN_UPDATE_PERSON)
+  @Permissions(PERMISSION_ENUM.CAN_UPDATE_PERSON)
   update(@Param('id') id: string, @Body() updatePersonDto: UpdatePersonDto) {
     return this.personService.update({ ...updatePersonDto, id });
   }

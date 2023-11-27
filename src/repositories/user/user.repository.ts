@@ -49,8 +49,35 @@ export class UserRepository extends RepositoryFactory<
         createdAt: true,
         updatedAt: true,
         deletedAt: true,
-        person: true,
+        person: {
+          select: {
+            id: true,
+            fullName: true,
+            email: true,
+            phone: true,
+            cpf: true,
+            rg: true,
+            birthDate: true,
+            gender: true,
+            nationality: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+            deletedAt: true,
+          },
+        },
         avatar: true,
+        userRole: {
+          select: {
+            id: true,
+            role: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -74,6 +101,17 @@ export class UserRepository extends RepositoryFactory<
       },
       include: {
         person: true,
+        userRole: {
+          select: {
+            id: true,
+            role: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
   }

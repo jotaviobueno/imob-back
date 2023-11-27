@@ -20,7 +20,7 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { RoleGuard } from '../role/guards';
 import { Permissions } from '../permission/decorators';
-import { PERMISSION } from 'src/domain/enums';
+import { PERMISSION_ENUM } from 'src/domain/enums';
 
 @Controller('property')
 @UseGuards(RoleGuard)
@@ -29,7 +29,7 @@ export class PropertyController {
 
   @Post()
   @UseInterceptors(FilesInterceptor('files', 10))
-  @Permissions(PERMISSION.CAN_CREATE_PROPERTY)
+  @Permissions(PERMISSION_ENUM.CAN_CREATE_PROPERTY)
   create(
     @Body() createPropertyDto: CreatePropertyDto,
     @UploadedFiles() files: Array<Express.Multer.File>,
@@ -38,19 +38,19 @@ export class PropertyController {
   }
 
   @Get()
-  @Permissions(PERMISSION.CAN_READ_PROPERTY)
+  @Permissions(PERMISSION_ENUM.CAN_READ_PROPERTY)
   findAll(@Query() queryParamsDto: QueryParamsDto) {
     return this.propertyService.findAll(queryParamsDto);
   }
 
   @Get(':id')
-  @Permissions(PERMISSION.CAN_READ_PROPERTY)
+  @Permissions(PERMISSION_ENUM.CAN_READ_PROPERTY)
   findOne(@Param('id') id: string) {
     return this.propertyService.findOne(id);
   }
 
   @Patch(':id')
-  @Permissions(PERMISSION.CAN_UPDATE_PROPERTY)
+  @Permissions(PERMISSION_ENUM.CAN_UPDATE_PROPERTY)
   @UseInterceptors(FilesInterceptor('files', 10))
   update(
     @Param('id') id: string,
@@ -61,7 +61,7 @@ export class PropertyController {
   }
 
   @Delete(':id')
-  @Permissions(PERMISSION.CAN_DELETE_PROPERTY)
+  @Permissions(PERMISSION_ENUM.CAN_DELETE_PROPERTY)
   remove(@Param('id') id: string) {
     return this.propertyService.remove(id);
   }

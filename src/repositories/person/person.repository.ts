@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePersonDto, UpdatePersonDto } from 'src/domain/dtos';
 import { PersonEntity } from 'src/domain/entities';
-import { PERSON_TYPE } from 'src/domain/enums';
+import { PERSON_TYPE_ENUM } from 'src/domain/enums';
 import { RepositoryFactory } from 'src/domain/factories';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class PersonRepository extends RepositoryFactory<
     super('person');
   }
 
-  findByRg(rg: string, type: PERSON_TYPE): Promise<PersonEntity> {
+  findByRg(rg: string, type: PERSON_TYPE_ENUM): Promise<PersonEntity> {
     return this.prismaService.person.findFirst({
       where: {
         rg,
@@ -23,7 +23,7 @@ export class PersonRepository extends RepositoryFactory<
     });
   }
 
-  findByEmail(email: string, type: PERSON_TYPE): Promise<PersonEntity> {
+  findByEmail(email: string, type: PERSON_TYPE_ENUM): Promise<PersonEntity> {
     return this.prismaService.person.findFirst({
       where: {
         email,
@@ -32,7 +32,7 @@ export class PersonRepository extends RepositoryFactory<
     });
   }
 
-  findByCpf(cpf: string, type: PERSON_TYPE): Promise<PersonEntity> {
+  findByCpf(cpf: string, type: PERSON_TYPE_ENUM): Promise<PersonEntity> {
     return this.prismaService.person.findFirst({
       where: {
         cpf,
@@ -41,7 +41,7 @@ export class PersonRepository extends RepositoryFactory<
     });
   }
 
-  findByPhone(phone: string, type: PERSON_TYPE): Promise<PersonEntity> {
+  findByPhone(phone: string, type: PERSON_TYPE_ENUM): Promise<PersonEntity> {
     return this.prismaService.person.findFirst({
       where: {
         phone,

@@ -5,6 +5,7 @@ import { UserRoleRepository } from 'src/repositories/user-role';
 import { RoleService } from '../role/role.service';
 import { ServiceBase } from 'src/domain/bases';
 import { UserService } from '../user/user.service';
+import { ROLE_ENUM } from 'src/domain/enums';
 
 @Injectable()
 export class UserRoleService
@@ -16,8 +17,15 @@ export class UserRoleService
     private readonly roleService: RoleService,
   ) {}
 
-  create(data: UserRoleDto): Promise<UserRoleEntity> {
-    return this.userRoleRepository.create(data);
+  async create({
+    name,
+    ...dto
+  }: Omit<UserRoleDto, 'roleId'> & {
+    name?: ROLE_ENUM;
+  }): Promise<UserRoleEntity> {
+    const role = await this.roleService.findByName(name);
+
+    return this.userRoleRepository.create({ ...dto, roleId: role.id });
   }
 
   async assign(data: UserRoleDto): Promise<UserRoleEntity> {

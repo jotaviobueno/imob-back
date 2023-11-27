@@ -89,11 +89,11 @@ export class CustomerRealEstateService
     const userRealEstate = await this.findOne(dto.id);
 
     if (dto.customerId) {
-      const user = await this.customerService.findOne(dto.customerId);
+      const customer = await this.customerService.findOne(dto.customerId);
 
       const customerAlreadyExistInRealEstate =
         await this.customerRealEstateRepository.findByCustomerIdAndRealEstateId(
-          user.id,
+          customer.id,
           userRealEstate.realEstateId,
         );
 
@@ -115,7 +115,7 @@ export class CustomerRealEstateService
 
       if (realEstateAlreadyExistInUser)
         throw new HttpException(
-          'real estate already exist in this user',
+          'real estate already exist in this customer',
           HttpStatus.CONFLICT,
         );
     }

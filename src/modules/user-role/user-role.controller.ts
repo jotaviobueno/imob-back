@@ -3,7 +3,7 @@ import { UserRoleService } from './user-role.service';
 import { UserRoleDto } from 'src/domain/dtos';
 import { RoleGuard } from '../role/guards';
 import { Roles } from '../role/decorators';
-import { PERMISSION, ROLE_ENUM } from 'src/domain/enums';
+import { PERMISSION_ENUM, ROLE_ENUM } from 'src/domain/enums';
 import { Permissions } from '../permission/decorators';
 
 @Controller('user-role')
@@ -13,13 +13,13 @@ export class UserRoleController {
   constructor(private readonly personRoleService: UserRoleService) {}
 
   @Post()
-  @Permissions(PERMISSION.CAN_ASSIGN_USER_IN_ROLE)
+  @Permissions(PERMISSION_ENUM.CAN_ASSIGN_USER_IN_ROLE)
   create(@Body() userRoleDto: UserRoleDto) {
     return this.personRoleService.assign(userRoleDto);
   }
 
   @Delete()
-  @Permissions(PERMISSION.CAN_UNLINK_USER_IN_ROLE)
+  @Permissions(PERMISSION_ENUM.CAN_UNLINK_USER_IN_ROLE)
   remove(@Body() userRoleDto: UserRoleDto) {
     return this.personRoleService.unlink(userRoleDto);
   }

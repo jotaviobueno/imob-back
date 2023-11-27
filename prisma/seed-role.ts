@@ -9,6 +9,7 @@ async function main(roles: { name: string; permissions: string[] }[]) {
         const nameAlreadyExist = await tx.role.findFirst({
           where: {
             name: name,
+            deletedAt: null,
           },
         });
 
@@ -17,6 +18,7 @@ async function main(roles: { name: string; permissions: string[] }[]) {
         const role = await tx.role.create({
           data: {
             name,
+            deletedAt: null,
           },
         });
 
@@ -25,6 +27,7 @@ async function main(roles: { name: string; permissions: string[] }[]) {
             const nameAlreadyExist = await tx.permission.findFirst({
               where: {
                 name: permission,
+                deletedAt: null,
               },
             });
 
@@ -33,6 +36,7 @@ async function main(roles: { name: string; permissions: string[] }[]) {
             return tx.permission.create({
               data: {
                 name: permission,
+                deletedAt: null,
               },
             });
           }),
@@ -45,6 +49,7 @@ async function main(roles: { name: string; permissions: string[] }[]) {
                 where: {
                   permissionId: permissionCreated.id,
                   roleId: role.id,
+                  deletedAt: null,
                 },
               },
             );
@@ -55,6 +60,7 @@ async function main(roles: { name: string; permissions: string[] }[]) {
               data: {
                 permissionId: permissionCreated.id,
                 roleId: role.id,
+                deletedAt: null,
               },
             });
           }),

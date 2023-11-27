@@ -3,7 +3,7 @@ import { RoleService } from './role.service';
 import { RoleGuard } from './guards';
 import { Roles } from './decorators';
 import { QueryParamsDto } from 'src/domain/dtos';
-import { PERMISSION, ROLE_ENUM } from 'src/domain/enums';
+import { PERMISSION_ENUM, ROLE_ENUM } from 'src/domain/enums';
 import { Permissions } from '../permission/decorators';
 
 @Controller('role')
@@ -13,13 +13,13 @@ export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
   @Get()
-  @Permissions(PERMISSION.CAN_READ_ROLE)
+  @Permissions(PERMISSION_ENUM.CAN_READ_ROLE)
   findAll(@Query() queryParamsDto: QueryParamsDto) {
     return this.roleService.findAll(queryParamsDto);
   }
 
   @Get(':id')
-  @Permissions(PERMISSION.CAN_READ_ROLE)
+  @Permissions(PERMISSION_ENUM.CAN_READ_ROLE)
   findOne(@Param('id') id: string) {
     return this.roleService.findOne(id);
   }

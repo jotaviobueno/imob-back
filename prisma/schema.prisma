@@ -83,7 +83,6 @@ model Customer {
   @@map("customer")
 }
 
-// Não feito
 model CustomerProperty {
   id         String                 @id @default(auto()) @map("_id") @db.ObjectId
   type       CUSTOMER_PROPERTY_TYPE
@@ -91,6 +90,9 @@ model CustomerProperty {
   propertyId String                 @map("property_id") @db.ObjectId
   customer   Customer               @relation(fields: [customerId], references: [id])
   customerId String                 @map("customer_id") @db.ObjectId
+  createdAt  DateTime               @default(now()) @map("created_at") @db.Timestamp
+  updatedAt  DateTime               @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt  DateTime?              @map("deleted_at") @db.Timestamp
 
   @@map("customer_property")
 }
@@ -222,6 +224,9 @@ model RolePermission {
   roleId       String     @map("role_id") @db.ObjectId
   permission   Permission @relation(fields: [permissionId], references: [id])
   permissionId String     @map("permission_id") @db.ObjectId
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamp
+  updatedAt    DateTime   @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt    DateTime?  @map("deleted_at") @db.Timestamp
 
   @@map("role_permission")
 }

@@ -7,7 +7,7 @@ import {
   IsString,
   Length,
 } from 'class-validator';
-import { PERSON_GENDER } from 'src/domain/enums';
+import { PERSON_GENDER_ENUM } from 'src/domain/enums';
 import { IsCpf } from 'src/domain/validators';
 
 export class CreatePersonDto {
@@ -36,9 +36,9 @@ export class CreatePersonDto {
   @IsNotEmpty()
   birthDate: Date;
 
-  @IsEnum(PERSON_GENDER)
+  @IsEnum(PERSON_GENDER_ENUM)
   @IsNotEmpty()
-  gender: PERSON_GENDER;
+  gender: PERSON_GENDER_ENUM;
 
   @IsString()
   @Length(3, 255)

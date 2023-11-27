@@ -7,7 +7,7 @@ import { UserModule } from '../user/user.module';
 
 @Global()
 @Module({
-  imports: [forwardRef(() => RoleModule), UserModule],
+  imports: [forwardRef(() => RoleModule), forwardRef(() => UserModule)],
   controllers: [UserRoleController],
   providers: [UserRoleService, UserRoleRepository],
   exports: [UserRoleService],

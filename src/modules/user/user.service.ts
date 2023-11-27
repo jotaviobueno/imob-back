@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { ServiceBase } from 'src/domain/bases';
 import { CreateUserDto, QueryParamsDto, UpdateUserDto } from 'src/domain/dtos';
 import { IFindMany, UserEntity } from 'src/domain/entities';
@@ -6,7 +12,8 @@ import { UserRepository } from 'src/repositories/user';
 import { PersonService } from '../person/person.service';
 import { QueryBuilder, generatePath, hash, isMongoId } from 'src/domain/utils';
 import { S3Service } from '../s3/s3.service';
-import { PERSON_TYPE } from 'src/domain/enums';
+import { PERSON_TYPE_ENUM, ROLE_ENUM } from 'src/domain/enums';
+import { UserRoleService } from '../user-role/user-role.service';
 
 @Injectable()
 export class UserService
@@ -19,6 +26,8 @@ export class UserService
     private readonly userRepository: UserRepository,
     private readonly personService: PersonService,
     private readonly s3Service: S3Service,
+    @Inject(forwardRef(() => UserRoleService))
+    private readonly userRoleService: UserRoleService,
   ) {}
 
   async create({
@@ -30,7 +39,7 @@ export class UserService
   > {
     const phoneAlreadyExist = await this.personService.findByPhone(
       dto.phone,
-      PERSON_TYPE.USER,
+      PERSON_TYPE_ENUM.USER,
     );
 
     if (phoneAlreadyExist)
@@ -38,7 +47,7 @@ export class UserService
 
     const cpfAlreadyExist = await this.personService.findByCpf(
       dto.cpf,
-      PERSON_TYPE.USER,
+      PERSON_TYPE_ENUM.USER,
     );
 
     if (cpfAlreadyExist)
@@ -46,7 +55,7 @@ export class UserService
 
     const emailAlreadyExist = await this.personService.findByEmail(
       dto.email,
-      PERSON_TYPE.USER,
+      PERSON_TYPE_ENUM.USER,
     );
 
     if (emailAlreadyExist)
@@ -55,7 +64,7 @@ export class UserService
     if (dto.rg) {
       const rgAlreadyExist = await this.personService.findByRg(
         dto.rg,
-        PERSON_TYPE.USER,
+        PERSON_TYPE_ENUM.USER,
       );
 
       if (rgAlreadyExist)
@@ -79,6 +88,11 @@ export class UserService
       password: passwordHashed,
       personId: person.id,
       avatar,
+    });
+
+    await this.userRoleService.create({
+      userId: user.id,
+      name: ROLE_ENUM.USER,
     });
 
     return user;
@@ -138,7 +152,7 @@ export class UserService
     if (dto.phone) {
       const phoneAlreadyExist = await this.personService.findByPhone(
         dto.phone,
-        PERSON_TYPE.USER,
+        PERSON_TYPE_ENUM.USER,
       );
 
       if (phoneAlreadyExist)
@@ -151,7 +165,7 @@ export class UserService
     if (dto.email) {
       const emailAlreadyExist = await this.personService.findByEmail(
         dto.email,
-        PERSON_TYPE.USER,
+        PERSON_TYPE_ENUM.USER,
       );
 
       if (emailAlreadyExist)

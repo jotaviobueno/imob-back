@@ -13,7 +13,7 @@ import { MenuService } from './menu.service';
 import { IsPublic } from '../access/decorators';
 import { RoleGuard } from '../role/guards';
 import { Roles } from '../role/decorators';
-import { PERMISSION, ROLE_ENUM } from 'src/domain/enums';
+import { PERMISSION_ENUM, ROLE_ENUM } from 'src/domain/enums';
 import { CreateMenuDto, QueryParamsDto, UpdateMenuDto } from 'src/domain/dtos';
 import { Permissions } from '../permission/decorators';
 
@@ -24,7 +24,7 @@ export class MenuController {
   @Post()
   @UseGuards(RoleGuard)
   @Roles(ROLE_ENUM.ADMIN, ROLE_ENUM.DEV)
-  @Permissions(PERMISSION.CAN_CREATE_MENU)
+  @Permissions(PERMISSION_ENUM.CAN_CREATE_MENU)
   create(@Body() createMenuDto: CreateMenuDto) {
     return this.menuService.create(createMenuDto);
   }
@@ -44,7 +44,7 @@ export class MenuController {
   @Patch(':id')
   @UseGuards(RoleGuard)
   @Roles(ROLE_ENUM.ADMIN, ROLE_ENUM.DEV)
-  @Permissions(PERMISSION.CAN_UPDATE_MENU)
+  @Permissions(PERMISSION_ENUM.CAN_UPDATE_MENU)
   update(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto) {
     return this.menuService.update({ ...updateMenuDto, id });
   }
@@ -52,7 +52,7 @@ export class MenuController {
   @Delete(':id')
   @UseGuards(RoleGuard)
   @Roles(ROLE_ENUM.ADMIN, ROLE_ENUM.DEV)
-  @Permissions(PERMISSION.CAN_DELETE_MENU)
+  @Permissions(PERMISSION_ENUM.CAN_DELETE_MENU)
   remove(@Param('id') id: string) {
     return this.menuService.remove(id);
   }

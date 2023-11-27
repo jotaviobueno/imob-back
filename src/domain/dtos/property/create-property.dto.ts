@@ -8,7 +8,7 @@ import {
   IsString,
   Length,
 } from 'class-validator';
-import { PROPERTY_STATUS } from 'src/domain/enums';
+import { PROPERTY_STATUS_ENUM } from 'src/domain/enums';
 
 export class CreatePropertyDto {
   @IsString()
@@ -20,9 +20,9 @@ export class CreatePropertyDto {
   @IsOptional()
   isActive?: boolean;
 
-  @IsEnum(PROPERTY_STATUS)
+  @IsEnum(PROPERTY_STATUS_ENUM)
   @IsNotEmpty()
-  status: PROPERTY_STATUS;
+  status: PROPERTY_STATUS_ENUM;
 
   @IsNumber()
   @IsOptional()
