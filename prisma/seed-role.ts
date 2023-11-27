@@ -94,6 +94,16 @@ const roles = [
       'CAN_DELETE_MENU',
       //
       'CAN_READ_ROLE',
+      //
+      'CAN_CREATE_CUSTOMER',
+      'CAN_READ_CUSTOMER',
+      'CAN_UPDATE_CUSTOMER',
+      'CAN_DELETE_CUSTOMER',
+      //
+      'CAN_CREATE_TYPE',
+      'CAN_READ_TYPE',
+      'CAN_UPDATE_TYPE',
+      'CAN_DELETE_TYPE',
     ],
   },
   {
@@ -121,6 +131,16 @@ const roles = [
       'CAN_DELETE_MENU',
       //
       'CAN_READ_ROLE',
+      //
+      'CAN_CREATE_CUSTOMER',
+      'CAN_READ_CUSTOMER',
+      'CAN_UPDATE_CUSTOMER',
+      'CAN_DELETE_CUSTOMER',
+      //
+      'CAN_CREATE_TYPE',
+      'CAN_READ_TYPE',
+      'CAN_UPDATE_TYPE',
+      'CAN_DELETE_TYPE',
     ],
   },
   {
@@ -130,6 +150,16 @@ const roles = [
       'CAN_READ_ADDRESS',
       'CAN_UPDATE_ADDRESS',
       'CAN_DELETE_ADDRESS',
+      //
+      'CAN_CREATE_CUSTOMER',
+      'CAN_READ_CUSTOMER',
+      'CAN_UPDATE_CUSTOMER',
+      'CAN_DELETE_CUSTOMER',
+      //
+      'CAN_CREATE_TYPE',
+      'CAN_READ_TYPE',
+      'CAN_UPDATE_TYPE',
+      'CAN_DELETE_TYPE',
     ],
   },
   {

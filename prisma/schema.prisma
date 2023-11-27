@@ -162,7 +162,7 @@ enum PROPERTY_STATUS {
 
 model Type {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
+  name      String     @unique
   createdAt DateTime   @default(now()) @map("created_at") @db.Timestamp
   updatedAt DateTime   @default(now()) @map("updated_at") @db.Timestamp
   deletedAt DateTime?  @map("deleted_at") @db.Timestamp
