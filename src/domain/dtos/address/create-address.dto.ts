@@ -28,7 +28,6 @@ export class CreateAddressDto {
 
   @IsInt()
   @IsNotEmpty()
-  @Length(3, 255)
   zipCode: number;
 
   @IsString()

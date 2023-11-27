@@ -8,3 +8,4 @@ export * from './user-role';
 export * from './access';
 export * from './user-real-estate';
 export * from './menu';
+export * from './customer';

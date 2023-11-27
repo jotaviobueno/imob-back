@@ -16,6 +16,7 @@ export class UserRepository extends RepositoryFactory<
     | 'birthDate'
     | 'gender'
     | 'nationality'
+    | 'type'
   >,
   Omit<
     UpdateUserDto,
@@ -27,6 +28,7 @@ export class UserRepository extends RepositoryFactory<
     | 'birthDate'
     | 'gender'
     | 'nationality'
+    | 'type'
   >
 > {
   constructor() {
@@ -38,7 +40,9 @@ export class UserRepository extends RepositoryFactory<
   ): Promise<Omit<UserEntity, 'password' & { person: PersonEntity }>[]> {
     return this.prismaService.user.findMany({
       ...query,
-      where: {},
+      where: {
+        deletedAt: null,
+      },
       select: {
         id: true,
         personId: true,
@@ -56,6 +60,7 @@ export class UserRepository extends RepositoryFactory<
       where: {
         person: {
           email,
+          type: 'USER',
         },
       },
     });

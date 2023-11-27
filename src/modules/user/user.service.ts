@@ -6,6 +6,7 @@ import { UserRepository } from 'src/repositories/user';
 import { PersonService } from '../person/person.service';
 import { QueryBuilder, generatePath, hash, isMongoId } from 'src/domain/utils';
 import { S3Service } from '../s3/s3.service';
+import { PERSON_TYPE } from 'src/domain/enums';
 
 @Injectable()
 export class UserService
@@ -27,23 +28,35 @@ export class UserService
   }: CreateUserDto & { file?: Express.Multer.File }): Promise<
     Omit<UserEntity, 'password'>
   > {
-    const phoneAlreadyExist = await this.personService.findByPhone(dto.phone);
+    const phoneAlreadyExist = await this.personService.findByPhone(
+      dto.phone,
+      PERSON_TYPE.USER,
+    );
 
     if (phoneAlreadyExist)
       throw new HttpException('this phone already exist', HttpStatus.CONFLICT);
 
-    const cpfAlreadyExist = await this.personService.findByCpf(dto.cpf);
+    const cpfAlreadyExist = await this.personService.findByCpf(
+      dto.cpf,
+      PERSON_TYPE.USER,
+    );
 
     if (cpfAlreadyExist)
       throw new HttpException('this cpf already exist', HttpStatus.CONFLICT);
 
-    const emailAlreadyExist = await this.personService.findByEmail(dto.email);
+    const emailAlreadyExist = await this.personService.findByEmail(
+      dto.email,
+      PERSON_TYPE.USER,
+    );
 
     if (emailAlreadyExist)
       throw new HttpException('this email already exist', HttpStatus.CONFLICT);
 
     if (dto.rg) {
-      const rgAlreadyExist = await this.personService.findByRg(dto.rg);
+      const rgAlreadyExist = await this.personService.findByRg(
+        dto.rg,
+        PERSON_TYPE.USER,
+      );
 
       if (rgAlreadyExist)
         throw new HttpException('this rg already exist', HttpStatus.CONFLICT);
@@ -57,7 +70,7 @@ export class UserService
         ...file,
       }));
 
-    const person = await this.personService.create(dto);
+    const person = await this.personService.create({ ...dto, type: 'USER' });
 
     const passwordHashed = await hash(passwordValue);
 
@@ -123,7 +136,10 @@ export class UserService
     const updateUserDto = { id, password: passwordValue };
 
     if (dto.phone) {
-      const phoneAlreadyExist = await this.personService.findByPhone(dto.phone);
+      const phoneAlreadyExist = await this.personService.findByPhone(
+        dto.phone,
+        PERSON_TYPE.USER,
+      );
 
       if (phoneAlreadyExist)
         throw new HttpException(
@@ -133,7 +149,10 @@ export class UserService
     }
 
     if (dto.email) {
-      const emailAlreadyExist = await this.personService.findByEmail(dto.email);
+      const emailAlreadyExist = await this.personService.findByEmail(
+        dto.email,
+        PERSON_TYPE.USER,
+      );
 
       if (emailAlreadyExist)
         throw new HttpException(

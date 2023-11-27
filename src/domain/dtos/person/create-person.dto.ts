@@ -1,3 +1,4 @@
+import { PERSON_TYPE } from '@prisma/client';
 import {
   IsDateString,
   IsEmail,
@@ -43,4 +44,6 @@ export class CreatePersonDto {
   @Length(3, 255)
   @IsNotEmpty()
   nationality?: string;
+
+  type: PERSON_TYPE;
 }

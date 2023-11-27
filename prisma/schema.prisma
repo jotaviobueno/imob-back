@@ -11,22 +11,28 @@ datasource db {
 }
 
 model Person {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  fullName    String    @map("full_name")
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  fullName    String      @map("full_name")
   email       String
   phone       String
   cpf         String
   rg          String?
-  birthDate   DateTime  @map("birth_date")
+  type        PERSON_TYPE
+  birthDate   DateTime    @map("birth_date")
   gender      GENDER
   nationality String?
   user        User?
   customer    Customer?
-  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamp
-  updatedAt   DateTime  @default(now()) @map("updated_at") @db.Timestamp
-  deletedAt   DateTime? @map("deleted_at") @db.Timestamp
+  createdAt   DateTime    @default(now()) @map("created_at") @db.Timestamp
+  updatedAt   DateTime    @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt   DateTime?   @map("deleted_at") @db.Timestamp
 
   @@map("person")
+}
+
+enum PERSON_TYPE {
+  USER
+  CUSTOMER
 }
 
 enum GENDER {

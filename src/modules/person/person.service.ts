@@ -6,6 +6,7 @@ import { IFindMany, PersonEntity } from 'src/domain/entities';
 import { QueryParamsDto } from 'src/domain/dtos';
 import { PersonRepository } from 'src/repositories/person';
 import { QueryBuilder, isMongoId } from 'src/domain/utils';
+import { PERSON_TYPE } from 'src/domain/enums';
 
 @Injectable()
 export class PersonService
@@ -18,20 +19,20 @@ export class PersonService
     return this.personRepository.create(dto);
   }
 
-  findByRg(rg: string): Promise<PersonEntity> {
-    return this.personRepository.findByRg(rg);
+  findByRg(rg: string, type: PERSON_TYPE): Promise<PersonEntity> {
+    return this.personRepository.findByRg(rg, type);
   }
 
-  findByEmail(email: string): Promise<PersonEntity> {
-    return this.personRepository.findByEmail(email);
+  findByEmail(email: string, type: PERSON_TYPE): Promise<PersonEntity> {
+    return this.personRepository.findByEmail(email, type);
   }
 
-  findByCpf(cpf: string): Promise<PersonEntity> {
-    return this.personRepository.findByCpf(cpf);
+  findByCpf(cpf: string, type: PERSON_TYPE): Promise<PersonEntity> {
+    return this.personRepository.findByCpf(cpf, type);
   }
 
-  findByPhone(phone: string): Promise<PersonEntity> {
-    return this.personRepository.findByPhone(phone);
+  findByPhone(phone: string, type: PERSON_TYPE): Promise<PersonEntity> {
+    return this.personRepository.findByPhone(phone, type);
   }
 
   async findAll(queryParams: QueryParamsDto): Promise<IFindMany<PersonEntity>> {

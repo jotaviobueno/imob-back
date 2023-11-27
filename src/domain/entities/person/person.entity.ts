@@ -1,4 +1,4 @@
-import { GENDER, Person } from '@prisma/client';
+import { GENDER, PERSON_TYPE, Person } from '@prisma/client';
 
 export class PersonEntity implements Person {
   id: string;
@@ -10,6 +10,7 @@ export class PersonEntity implements Person {
   birthDate: Date;
   gender: GENDER;
   nationality: string | null;
+  type: PERSON_TYPE;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date | null;

@@ -12,6 +12,7 @@ import { AccessGuard } from './modules/access/guards';
 import { AccessModule } from './modules/access/access.module';
 import { UserRealEstateModule } from './modules/user-real-estate/user-real-estate.module';
 import { MenuModule } from './modules/menu/menu.module';
+import { CustomerModule } from './modules/customer/customer.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { MenuModule } from './modules/menu/menu.module';
     AccessModule,
     UserRealEstateModule,
     MenuModule,
+    CustomerModule,
   ],
   providers: [
     {
