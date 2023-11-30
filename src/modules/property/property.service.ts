@@ -11,7 +11,7 @@ import { AddressService } from '../address/address.service';
 import { S3Service } from '../s3/s3.service';
 import { PropertyRepository } from 'src/repositories/property';
 import { RealEstateService } from '../real-estate/real-estate.service';
-import { QueryBuilder, isMongoId } from 'src/domain/utils';
+import { QueryBuilder, generatePath, isMongoId } from 'src/domain/utils';
 
 @Injectable()
 export class PropertyService
@@ -81,7 +81,7 @@ export class PropertyService
         files.map((file) => ({
           ...file,
           bucket: 'imobproject',
-          path: 'property',
+          path: generatePath('property', file.mimetype),
         })),
       ));
 

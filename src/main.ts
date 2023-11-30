@@ -6,6 +6,8 @@ import { environment } from './config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  console.log(new Date());
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

@@ -51,6 +51,7 @@ model User {
   deletedAt      DateTime?        @map("deleted_at") @db.Timestamp
   userRealEstate UserRealEstate[]
   userRole       UserRole[]
+  userInvoice    UserInvoice[]
 
   @@map("user")
 }
@@ -79,6 +80,7 @@ model Customer {
   deletedAt          DateTime?            @map("deleted_at") @db.Timestamp
   customerRealEstate CustomerRealEstate[]
   customerProperty   CustomerProperty[]
+  customerInvoice    CustomerInvoice[]
 
   @@map("customer")
 }
@@ -153,6 +155,7 @@ model Property {
   realEstate       RealEstate         @relation(fields: [realEstateId], references: [id])
   realEstateId     String             @map("real_estate_id") @db.ObjectId
   customerProperty CustomerProperty[]
+  propertyInvoice  PropertyInvoice[]
 
   @@map("property")
 }
@@ -265,4 +268,105 @@ model Menu {
   deletedAt   DateTime? @map("deleted_at") @db.Timestamp
 
   @@map("menu")
+}
+
+model UserInvoice {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String    @map("user_id") @db.ObjectId
+  invoice   Invoice   @relation(fields: [invoiceId], references: [id])
+  invoiceId String    @map("invoice_id") @db.ObjectId
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp
+  updatedAt DateTime  @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
+}
+
+model PropertyInvoice {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  property   Property  @relation(fields: [propertyId], references: [id])
+  propertyId String    @map("property_id") @db.ObjectId
+  invoice    Invoice   @relation(fields: [invoiceId], references: [id])
+  invoiceId  String    @map("invoice_id") @db.ObjectId
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamp
+  updatedAt  DateTime  @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt  DateTime? @map("deleted_at") @db.Timestamp
+}
+
+model CustomerInvoice {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  invoice    Invoice   @relation(fields: [invoiceId], references: [id])
+  invoiceId  String    @map("invoice_id") @db.ObjectId
+  customer   Customer  @relation(fields: [customerId], references: [id])
+  customerId String    @map("customer_id") @db.ObjectId
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamp
+  updatedAt  DateTime  @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt  DateTime? @map("deleted_at") @db.Timestamp
+}
+
+model Invoice {
+  id                    String            @id @default(auto()) @map("_id") @db.ObjectId
+  descriptions          String[]          @default([])
+  type                  InvoiceType
+  // 
+  totalInstallment      Int               @map("total_installment")
+  // 
+  startingInstallmentIn DateTime          @map("starting_installment_in")
+  // 
+  total                 Float
+  // 
+  valueBeforeFee        Float
+  fees                  Float?
+  // 
+  createdAt             DateTime          @default(now()) @map("created_at") @db.Timestamp
+  updatedAt             DateTime          @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt             DateTime?         @map("deleted_at") @db.Timestamp
+  installment           Installment[]
+  userInvoice           UserInvoice[]
+  propertyInvoice       PropertyInvoice[]
+  customerInvoice       CustomerInvoice[]
+}
+
+model Installment {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  descriptions   String[]      @default([])
+  status         InvoiceStatus @default(AGUARDANDO_PAGAMENTO)
+  // NUMERO DA PARCELA
+  number         Int
+  // 
+  value          String
+  // 
+  invoice        Invoice       @relation(fields: [invoiceId], references: [id])
+  invoiceId      String        @map("invoice_id") @db.ObjectId
+  // 
+  paymentAt      DateTime?     @map("payment_at") @db.Timestamp
+  paymentLimitAt DateTime      @map("payment_limit_at") @db.Timestamp
+  // 
+  verifications  DateTime[]    @default([])
+  // 
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamp
+  updatedAt      DateTime      @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt      DateTime?     @map("deleted_at") @db.Timestamp
+}
+
+enum InvoiceStatus {
+  AGUARDANDO_PAGAMENTO
+  PAGAMENTO_NAO_REALIZADO
+  PAGO
+  CANCELADO
+  VENCIDO
+}
+
+enum InvoiceType {
+  VENDA
+  ALUGEL
+  PARCELA
+}
+
+model Finance {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp
+  updatedAt DateTime  @default(now()) @map("updated_at") @db.Timestamp
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
+
+  @@map("finance")
 }
