@@ -6,7 +6,6 @@ import {
   UpdatePropertyDto,
 } from 'src/domain/dtos';
 import { IFindMany, PropertyEntity } from 'src/domain/entities';
-import { TypeService } from '../type/type.service';
 import { AddressService } from '../address/address.service';
 import { S3Service } from '../s3/s3.service';
 import { PropertyRepository } from 'src/repositories/property';
@@ -20,7 +19,6 @@ export class PropertyService
 {
   constructor(
     private readonly propertyRepository: PropertyRepository,
-    private readonly typeService: TypeService,
     private readonly realEstateService: RealEstateService,
     private readonly addressService: AddressService,
     private readonly s3Service: S3Service,
@@ -34,8 +32,6 @@ export class PropertyService
   }): Promise<PropertyEntity> {
     const realEstate = await this.realEstateService.findOne(dto.realEstateId);
 
-    const type = await this.typeService.findOne(dto.typeId);
-
     const address = await this.addressService.findOne(dto.addressId);
 
     const images =
@@ -44,7 +40,7 @@ export class PropertyService
         files.map((file) => ({
           ...file,
           bucket: 'imobproject',
-          path: 'property',
+          path: generatePath('property/images', file.mimetype),
         })),
       ));
 
@@ -53,7 +49,6 @@ export class PropertyService
       images,
       addressId: address.id,
       realEstateId: realEstate.id,
-      typeId: type.id,
     });
 
     return property;
@@ -68,8 +63,6 @@ export class PropertyService
   }): Promise<PropertyEntity> {
     const property = await this.findOne(id);
 
-    if (dto.typeId) await this.typeService.findOne(dto.typeId);
-
     if (dto.addressId) await this.addressService.findOne(dto.addressId);
 
     if (dto.realEstateId)
@@ -81,7 +74,7 @@ export class PropertyService
         files.map((file) => ({
           ...file,
           bucket: 'imobproject',
-          path: generatePath('property', file.mimetype),
+          path: generatePath('property/images', file.mimetype),
         })),
       ));
 

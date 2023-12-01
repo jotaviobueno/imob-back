@@ -8,7 +8,7 @@ import {
   IsString,
   Length,
 } from 'class-validator';
-import { PROPERTY_STATUS_ENUM } from 'src/domain/enums';
+import { PROPERTY_STATUS_ENUM, PROPERTY_TYPE_ENUM } from 'src/domain/enums';
 
 export class CreatePropertyDto {
   @IsString()
@@ -44,9 +44,9 @@ export class CreatePropertyDto {
   @IsNotEmpty()
   addressId: string;
 
-  @IsMongoId()
+  @IsEnum(PROPERTY_TYPE_ENUM)
   @IsNotEmpty()
-  typeId: string;
+  type: PROPERTY_TYPE_ENUM;
 
   @IsMongoId()
   @IsNotEmpty()

@@ -13,7 +13,6 @@ import { AccessModule } from './modules/access/access.module';
 import { UserRealEstateModule } from './modules/user-real-estate/user-real-estate.module';
 import { MenuModule } from './modules/menu/menu.module';
 import { CustomerModule } from './modules/customer/customer.module';
-import { TypeModule } from './modules/type/type.module';
 import { CustomerRealEstateModule } from './modules/customer-real-estate/customer-real-estate.module';
 import { PropertyModule } from './modules/property/property.module';
 import { CustomerPropertyModule } from './modules/customer-property/customer-property.module';
@@ -34,7 +33,6 @@ import { InstallmentModule } from './modules/installment/installment.module';
     UserRealEstateModule,
     MenuModule,
     CustomerModule,
-    TypeModule,
     CustomerRealEstateModule,
     PropertyModule,
     CustomerPropertyModule,

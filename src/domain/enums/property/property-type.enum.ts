@@ -1,0 +1,4 @@
+export enum PROPERTY_TYPE_ENUM {
+  VENDA = 'VENDA',
+  ALUGEL = 'ALUGEL',
+}

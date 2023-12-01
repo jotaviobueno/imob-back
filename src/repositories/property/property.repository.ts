@@ -22,7 +22,6 @@ export class PropertyRepository extends RepositoryFactory<
       include: {
         address: true,
         realEstate: true,
-        type: true,
       },
     });
   }

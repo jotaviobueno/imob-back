@@ -139,6 +139,7 @@ model Property {
   id               String             @id @default(auto()) @map("_id") @db.ObjectId
   description      String
   isActive         Boolean            @default(true) @map("is_active")
+  type             PROPERTY_TYPE
   status           PROPERTY_STATUS
   saleValue        Float?             @map("sale_value")
   rentalValue      Float?             @map("rental_value")
@@ -150,8 +151,6 @@ model Property {
   deletedAt        DateTime?          @map("deleted_at") @db.Timestamp
   address          Address            @relation(fields: [addressId], references: [id])
   addressId        String             @map("address_id") @db.ObjectId
-  type             Type               @relation(fields: [typeId], references: [id])
-  typeId           String             @map("type_id") @db.ObjectId
   realEstate       RealEstate         @relation(fields: [realEstateId], references: [id])
   realEstateId     String             @map("real_estate_id") @db.ObjectId
   customerProperty CustomerProperty[]
@@ -160,21 +159,15 @@ model Property {
   @@map("property")
 }
 
+enum PROPERTY_TYPE {
+  VENDA
+  ALUGEL
+}
+
 enum PROPERTY_STATUS {
   ALUGADA
   VENDIDA
   CANCELADO
-}
-
-model Type {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  name      String     @unique
-  createdAt DateTime   @default(now()) @map("created_at") @db.Timestamp
-  updatedAt DateTime   @default(now()) @map("updated_at") @db.Timestamp
-  deletedAt DateTime?  @map("deleted_at") @db.Timestamp
-  property  Property[]
-
-  @@map("type")
 }
 
 model Address {

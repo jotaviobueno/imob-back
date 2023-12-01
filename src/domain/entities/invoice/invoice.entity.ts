@@ -7,6 +7,7 @@ export class InvoiceEntity implements Invoice {
   totalInstallment: number;
   startingInstallmentIn: Date;
   total: number;
+  valueBeforeFee: number;
   fees: number | null;
   createdAt: Date;
   updatedAt: Date;

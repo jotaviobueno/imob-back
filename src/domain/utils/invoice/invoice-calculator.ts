@@ -16,12 +16,12 @@ export class InvoiceCalculator {
   }
 
   private getInstallments() {
-    for (let index = 0; index < this.dto.totalInstallment; index++) {
-      this.installments.push({
-        value: this.total / this.dto.totalInstallment,
-        date,
-      });
-    }
+    // for (let index = 0; index < this.dto.totalInstallment; index++) {
+    //   this.installments.push({
+    //     value: this.total / this.dto.totalInstallment,
+    //     date,
+    //   });
+    // }
   }
 
   handle() {

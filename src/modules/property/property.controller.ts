@@ -34,7 +34,10 @@ export class PropertyController {
     @Body() createPropertyDto: CreatePropertyDto,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
-    return this.propertyService.create({ ...createPropertyDto, files });
+    return this.propertyService.create({
+      ...createPropertyDto,
+      files,
+    });
   }
 
   @Get()
@@ -57,7 +60,11 @@ export class PropertyController {
     @Body() updatePropertyDto: UpdatePropertyDto,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
-    return this.propertyService.update({ ...updatePropertyDto, id, files });
+    return this.propertyService.update({
+      ...updatePropertyDto,
+      id,
+      files,
+    });
   }
 
   @Delete(':id')
