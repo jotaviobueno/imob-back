@@ -16,8 +16,6 @@ import { CustomerModule } from './modules/customer/customer.module';
 import { CustomerRealEstateModule } from './modules/customer-real-estate/customer-real-estate.module';
 import { PropertyModule } from './modules/property/property.module';
 import { CustomerPropertyModule } from './modules/customer-property/customer-property.module';
-import { InvoiceModule } from './modules/invoice/invoice.module';
-import { InstallmentModule } from './modules/installment/installment.module';
 
 @Module({
   imports: [
@@ -36,8 +34,6 @@ import { InstallmentModule } from './modules/installment/installment.module';
     CustomerRealEstateModule,
     PropertyModule,
     CustomerPropertyModule,
-    InvoiceModule,
-    InstallmentModule,
   ],
   providers: [
     {
